@@ -1,0 +1,45 @@
+---
+format: pdf
+---
+
+# Instructions for the experimenter
+
+In abm_agent_H.py, adapt the PsychoPy monitor size parameter to the monitor size 
+of the device.  In abm_experiment.py, adapt the participant ID, number of blocks, 
+and number trials per block parameters
+
+# Participant instructions
+
+## Gabor patch contrast instructions
+
+On each trial of the task, you will see two Gabor patches to the left and right 
+of a fixation cross. One of the patches has a higher contrast, i.e. a larger difference
+between the black and the white parts of the image, than the other. Your task is to 
+indicate by pressing the left or right cursor which of the Gabor patches has the higher 
+contrast. If your answer is correct, you receive a reward of +1, if your answer is 
+incorrect, you receive a reward of +0. Your aim is to maximize your sum of rewards,
+ i.e. to be correct as often as possible.  Sometimes, the difference in contrast 
+ between the Gabor patches is obvious, sometimes it is more subtle. After you have 
+ been familiarized with the task, you will perform 10 blocks of 30 trials each. 
+
+## Symmetric bandit instructions
+
+On each trial of the task, you can choose between pressing the left or the right 
+cursor button.  For a given block of the task, each button is associated with fixed 
+probabilities that pressing it will yield a reward of +1  or +0. For example, on 
+a given block, pressing the left cursor button will yield a reward of +1 with 
+probability 0.8 and will yield a reward of +0 with a probability of 0.2. When 
+pressing the left button, you will thus observe a +1 reward on average in 8 of 
+10 trials and a reward of +0 in 2 of 10 trials. Pressing the other button 
+(in this example, the right button) will yield the rewards with  opposite probabilities 
+assigned to them. In the example, if pressing the left button yields a reward of +1 with
+probability 0.8, then pressing the right button yields a reward with probability 0.2, 
+and likewise for obtaining rewards of +0. One of the buttons is thus always 
+associated with a higher probability of obtaining a reward of +1 than the 
+other button. Sometimes this difference is pronounced, sometimes it is more subtle. 
+Your aim is to maximize your sum of rewards, i.e., to press the button with the 
+higher associated probability for +1 as often as possible. Which button that is, 
+you must figure out on each block, as the probabilities will be reassigned once 
+a new block begins.  After you have been familiarized with the task, you will 
+perform 10 blocks of 30 trials each. 
+ 
