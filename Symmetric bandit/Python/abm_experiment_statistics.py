@@ -30,17 +30,16 @@ from abm_abm import abm_abm                                                     
 from abm_description import abm_description                                     # type: ignore # descriptive statistics utility
 from abm_figures import abm_figures                                             # type: ignore # visualization utilities
 
-
-  
+ 
 # descriptive statistics
 # -----------------------------------------------------------------------------     
-n           = 1                                                                 # number of data sets
-idxs        = range(n)                                                          # participant indices
+idxs        = np.array([5,8,10])                                                # participant indices
+n           = len(idxs)                                                         # number of data sets
 sta         = abm_structure()                                                   # structure initialization
 sta.ddir    = ddir                                                              # source data directory
 sta.idxs    = idxs                                                              # participant indices
-sta.K       = 2                                                                 # number of blocks
-sta.T       = 10                                                                # number of trials per block
+sta.K       = 10                                                                # number of blocks
+sta.T       = 30                                                                # number of trials per block
 sta         = abm_description(sta)                                              # run descriptive statistics           
 
 # group economic choice data visualization
@@ -57,39 +56,40 @@ ax[0].imshow(mpimg.imread(fdir / 'paradigm.png'))
 ax[0].axis('off')  
 
 # group accuracy
+x                   = np.arange(1,n+1)                                                 # participant indices        
 ax[1]               = plt.subplot(gs[1,0])                                                  
-ax[1].plot(         idxs,
+ax[1].plot(         x,
                     np.full(n, sta.r_avg_mean), 
                     ls = '-', 
                     color = red[1], 
                     label = 'Group mean reward')
-ax[1].plot(         idxs,
+ax[1].plot(         x,
                     np.full(n, sta.a_avg_mean), 
                     ls = '-', 
                     color = 'gray', 
                     label = 'Group mean maximizing action')
-ax[1].plot(         idxs,
+ax[1].plot(         x,
                     sta.r_avg,
                     marker = 'o', 
                     ls = '', 
                     color = red[2], 
                     clip_on = False, 
                     label = 'Participant mean reward')
-ax[1].plot(         idxs,
+ax[1].plot(         x,
                     sta.a_avg,
                     marker = 'o', 
                     ls = '', 
                     color = 'gray', 
                     clip_on = False, 
                     label = 'Participant maximizing action')
-ax[1].fill_between( idxs,
+ax[1].fill_between( x,
                     np.full(n, sta.r_avg_mean) - np.full(n, sta.r_avg_sd),
                     np.full(n, sta.r_avg_mean) + np.full(n, sta.r_avg_sd),
                     facecolor    = red[3],
                     edgecolor    = red[3],
                     alpha        = 0.2,
                     label        = 'Standard deviation reward')
-ax[1].fill_between( idxs,
+ax[1].fill_between( x,
                     np.full(n, sta.a_avg_mean) - np.full(n, sta.a_avg_sd),
                     np.full(n, sta.a_avg_mean) + np.full(n, sta.a_avg_sd),
                     facecolor    = 'lightgray',
@@ -153,33 +153,4 @@ for i, label in enumerate(labels):
     ha          = 'left')
 fig.tight_layout()
 fig.savefig(fdir / "abm_sb_group.pdf", dpi = 300, format = "pdf")
-
-# # participant-level economic choice data visualization
-# # -----------------------------------------------------------------------------
-# # participant-level economic action accuracy learning curves
-# fig             = plt.figure(figsize = (12,12))                                 # figure initialization and figure size
-# nrows           = 8                                                             # number of rows
-# ncols           = 7                                                             # number of columns
-# gs              = gridspec.GridSpec(8,7)                                        # subplot layout
-# ax              = {}                                                            # axes dictionary initialization          
-# idx             = 0                                                             # linear index initialization
-
-# for i in range(nrows):
-#     for j in range(ncols):
-#         ax[idx] = plt.subplot(gs[i,j])
-#         ax[idx].plot(sta.ae_lrn_x, sta.ae_lrn[idx,:], ls = '-', color = red[2])
-#         ax[idx].set_title('P{0:1}, {1:1.2f}'.format(idx,sta.ae_acc[idx]), fontsize = 8)
-#         ax[idx].set_ylim(.45, 1.05)
-#         ax[idx].set_xlim(1,25)
-#         ax[idx].tick_params(labelsize = 8)
-#         ax[idx].grid(True, linewidth = .5, color = [.9,.9,.9])
-#         idx = idx + 1
-#         if idx >= n:
-#             break
-#     if idx >= n:
-#         break
-
-# fig.tight_layout()
-# fig.savefig(os.path.join(fdir, 'abm_sl_participants.pdf'), dpi = 300, format = 'pdf')
-
 

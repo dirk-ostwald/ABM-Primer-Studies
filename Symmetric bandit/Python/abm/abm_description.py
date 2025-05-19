@@ -74,18 +74,21 @@ def abm_description(sta):
     
     # average reward and learning curve
     for p in range(N):
-        data_p      = data[data['P'] == p]                                      # participant data set
+        data_p      = data[data['P'] == sta.idxs[p]]                            # participant data set
+        print(data_p)
         r_avg[p]    = data_p['r_t'].mean()                                      # average reward
         r_lrn[p]    = data_p.groupby(['t'])['r_t'].mean().tolist()              # participant-specific learning curve
-       
+
+
+
     # average maximizing actions
     for p in range(N):
         for b in range(K):
-            data_pb     = data[(data['P'] == p) & (data['k'] == b)]             # participant block data set
+            data_pb     = data[(data['P'] == sta.idxs[p]) & (data['k'] == b)]   # participant block data set
             if data_pb['s_t'].iloc[0] >= 0.5:                                   # if a_t = 1 is the expectation maximizing action
-                a_lrn_a[b,:,p]  = data_pb['a_t']                                  # average expectation maximizing actions
+                a_lrn_a[b,:,p]  = data_pb['a_t']                                # average expectation maximizing actions
             else:                                                               # if a_t = 0 is the expectation maximizing action
-                a_lrn_a[b,:,p]  = 1 - data_pb['a_t']                              # average expectation maximizing actions
+                a_lrn_a[b,:,p]  = 1 - data_pb['a_t']                            # average expectation maximizing actions
 
     a_lrn  = np.mean(a_lrn_a, axis = 0).T                                       # average trialwise maximizing actions                              
     a_avg  = np.mean(a_lrn, axis = 1)                                           # across trial average maximizing action

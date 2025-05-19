@@ -30,7 +30,7 @@ class abm_agent:
         # behavior acquisition parameters
         self.keys       = ['left', 'right']                                     # keys (actions)
         self.key2act    = {'left' : 0, 'right' : 1}                             # key encoding 
-        self.ltime      = 2                                                     # reward learning time
+        self.ltime      = 1                                                     # reward learning time
 
         # PsychoPy startup
         self.win        = visual.Window(self.winsize, color = [0, 0, 0])        # grey background

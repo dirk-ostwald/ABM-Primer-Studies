@@ -20,7 +20,7 @@ from pathlib import Path                                                        
 wdir        = Path.cwd()                                                        # working directory
 udir        = wdir / "abm"                                                      # project utilities directory
 rdir        = wdir.parent                                                       # project root directory
-sdir        = rdir / "Data" / "Simulations"                                     # data source directory
+sdir        = rdir / "Data" / "Experiment"                                      # data source directory
 fdir        = rdir / "Figures"                                                  # figure directory
 
 # ABM project utility import
@@ -32,7 +32,7 @@ from abm_figures import abm_figures                                             
 
 # toy data generation
 # -----------------------------------------------------------------------------
-n           = 50                                                               # number of data sets
+n           = 50                                                                # number of data sets
 I           = np.arange(n)                                                      # participant indices
 S           = rdir / "Data" / "Simulations"                                     # source data directory
 P           = abm_structure()                                                   # structure initialization

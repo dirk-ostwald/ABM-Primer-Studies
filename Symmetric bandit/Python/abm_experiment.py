@@ -28,9 +28,13 @@ from abm_abm import abm_abm                                                     
 P           = abm_structure()                                                   # structure initialization
 P.mode      = "gen"                                                             # mode of operation       
 P.agent     = "H"                                                               # agent name
-P.P         = 1                                                                 # participant ID 
-P.K         = 1                                                                 # number of blocks
-P.T         = 10                                                                # number of trials per block
+###############################################################################
+################# PLEASE ADAPT THE FOLLOWING PARAMETERS #######################
+###############################################################################
+P.P         = 0                                                                 # participant ID 
+P.K         = 0                                                                 # number of blocks
+P.T         = 0                                                                 # number of trials per block
+###############################################################################
 P.ddir      = ddir                                                              # data directory
 P.pid       = "sub-" + str(P.P).zfill(3)                                        # participant ID
 P.file      = P.ddir / f"{P.pid}.csv"                                           # filename    

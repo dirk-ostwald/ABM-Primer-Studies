@@ -19,7 +19,7 @@ def abm_load(ddir,idxs):
     
     D = pd.DataFrame(None)                                                      # data frame initialization                                   
     for i in idxs:                                                              # participant iterations
-        fname       = ddir / f"sub-{str(i).zfill(3)}.csv"                          # filename
+        fname       = ddir / f"sub-{str(i).zfill(3)}.csv"                       # filename
         D_i         = pd.read_csv(fname, sep = '\t', header = 0)                # data
         D           = D._append(D_i, ignore_index = True)                       # append data frame
 
@@ -72,8 +72,9 @@ def abm_description(sta):
     """
     # data loading    
     data       = abm_load(sta.ddir,sta.idxs)                                    # data frame  
-    N          = len(list(set(data['P'])))                                       # number of participants
- 
+    N          = len(list(set(data['P'])))                                      # number of participants
+    print(N)
+
     # perceptual action data analysis
     a_bins     = np.linspace(-1, 1, 18)                                         # normalized contrast difference bins 
     a_psy_x    = np.linspace(-1, 1, 17)                                         # normalized contrast difference x axis
@@ -84,13 +85,12 @@ def abm_description(sta):
     
     # participant iterations
     for p in range(N):      
-        data_p      = data[data['P'] == p]                                      # participant data set
-        print(data_p)
+        data_p      = data[data['P'] == sta.idxs[p]]                            # participant data set
         a_trl[p]    = data_p.shape[0]                                           # number of trials in the data set
         a_val[p]    = a_trl[p] - data_p['a_t'].isna().sum()                     # number of valid trials in the data
         a_cor[p]    = np.sum(data_p['a_t'] == data_p['s_t'])                    # number of correct valid perceptual actions
         a_cut       = pd.cut(data_p['c_t'], a_bins)                             # contrast difference grouping into bins
-        a_psy[p,:]  = data_p['a_t'].groupby([a_cut], observed = False).mean()    # participant-specific psychometric functions
+        a_psy[p,:]  = data_p['a_t'].groupby([a_cut], observed = False).mean()   # participant-specific psychometric functions
     
  
     # sanity check

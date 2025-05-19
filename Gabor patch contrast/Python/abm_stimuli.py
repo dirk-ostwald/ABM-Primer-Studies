@@ -42,7 +42,7 @@ theta   = 0.00                                                                  
 sigma   = 15.0                                                                  # Gaussian envelope size
 mu      = 0.50                                                                  # mean stimulus amplitude scaling
 nkappa  = 1.00                                                                  # normalized contrast difference parameter
-kappa   = 0.50                                                                  # maximal contrast difference parameter
+kappa   = 0.10                                                                  # maximal contrast difference parameter
 dc      = 0.01                                                                  # normalized contrast difference step size
 cs      = np.linspace(-nkappa, nkappa, int((nkappa - (-nkappa)) / dc) + 1)      # normalized contrast difference set 
 

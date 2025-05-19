@@ -33,9 +33,9 @@ P.agent     = "H"                                                               
 ###############################################################################
 ################# PLEASE ADAPT THE FOLLOWING PARAMETERS #######################
 ###############################################################################
-P.P         = 1                                                                 # participant ID 
-P.K         = 2                                                                 # number of blocks
-P.T         = 10                                                                # number of trials per block
+P.P         = 0                                                                 # participant ID 
+P.K         = 0                                                                 # number of blocks
+P.T         = 0                                                                 # number of trials per block
 ###############################################################################
 P.sdir      = sdir                                                              # stimulus directory
 P.ddir      = ddir                                                              # data directory

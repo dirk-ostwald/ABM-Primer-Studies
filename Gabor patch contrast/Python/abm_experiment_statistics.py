@@ -20,7 +20,7 @@ from pathlib import Path                                                        
 wdir        = Path.cwd()                                                        # working directory
 udir        = wdir / "abm"                                                      # project utilities directory
 rdir        = wdir.parent                                                       # project root directory
-ddir        = rdir / "Data" / "Simulations"                                     # data source directory
+ddir        = rdir / "Data" / "Experiment"                                      # data source directory
 fdir        = rdir / "Figures"                                                  # figure directory
 
 # ABM project utility import
@@ -33,8 +33,8 @@ from abm_figures import abm_figures                                             
 
 # descriptive statistics
 # -----------------------------------------------------------------------------     
-n           = 50                                                                 # number of data sets
-idxs        = range(n)                                                          # participant indices
+idxs        = np.array([0,5,8,10])                                                # participant indices
+n           = len(idxs)                                                         # number of data sets
 sta         = abm_structure()                                                   # structure initialization
 sta.ddir    = ddir                                                              # source data directory
 sta.idxs    = idxs                                                              # participant indices
@@ -53,20 +53,21 @@ ax[0].imshow(mpimg.imread(fdir / 'paradigm.png'))
 ax[0].axis('off')  
 
 # group accuracy
+x                   = np.arange(1,n+1,1)
 ax[1]               = plt.subplot(gs[0,1])                                                  
-ax[1].plot(         idxs, 
+ax[1].plot(         x,
                     np.full(n, sta.a_acc_mean), 
                     ls      = '-', 
                     color   = blue[1] , 
                     label   = 'Group mean')
-ax[1].plot(         idxs, 
+ax[1].plot(         x, 
                     sta.a_acc, 
                     marker  = 'o', 
                     ls      = '', 
                     color   = blue[2], 
                     clip_on = False, 
                     label   = 'Participant')
-ax[1].fill_between( idxs, 
+ax[1].fill_between( x, 
                     np.full(n, sta.a_acc_mean) - np.full(n, sta.a_acc_sd),
                     np.full(n, sta.a_acc_mean) + np.full(n, sta.a_acc_sd),
                     facecolor = blue[3],
@@ -141,95 +142,4 @@ for i in range(nrows):
         break
 fig.tight_layout()
 fig.savefig(fdir / "abm_gpc_participants.pdf", dpi = 400, format = "pdf")
-
-# # group economic choice data visualization
-# # ----------------------------------------------------------------------------
-# # figure settings
-# plt, blue, red      = abm_figures(plt)
-# fig                 = plt.figure(figsize = (12,5))                                   
-# gs                  = gridspec.GridSpec(1,2)                                         
-# ax                  = {}    
-
-# # group accuracy
-# ax[0]               = plt.subplot(gs[0,0])                                                  
-# ax[0].plot(         P, 
-#                     sta.ae_acc_mean*np.ones([n]), 
-#                     ls = '-', 
-#                     color = red[1], 
-#                     label = 'Group mean')
-# ax[0].plot(         P, 
-#                     sta.ae_acc,
-#                     marker = 'o', 
-#                     ls = '', 
-#                     color = red[2], 
-#                     clip_on = False, 
-#                     label = 'Participant')
-# ax[0].fill_between( P, 
-#                     sta.ae_acc_mean*np.ones([n]) - sta.ae_acc_sd*np.ones([n]),
-#                     sta.ae_acc_mean*np.ones([n]) + sta.ae_acc_sd*np.ones([n]),
-#                     facecolor    = red[3],
-#                     edgecolor    = red[3],
-#                     alpha        = 0.2,
-#                     label        = 'Standard deviation')
-# ax[0].set_ylim(.5, 1.)
-# ax[0].set_xlim(0,51)
-# ax[0].set_title('Action accuracy', fontsize = 22)
-# ax[0].set_xlabel('Participant', fontsize = 18)
-# ax[0].tick_params(labelsize = 14)
-# ax[0].grid(True, linewidth = .5, color = [.9,.9,.9])
-# ax[0].legend(loc = 'lower right', fontsize = 12, frameon = True)
-
-# # group learning curve
-# ax[1] = plt.subplot(gs[0,1])                                                  
-# ax[1].plot(         sta.ae_lrn_x, 
-#                     sta.ae_lrn_mean, 
-#                     ls = '-', 
-#                     color = red[1], 
-#                     label = 'Group mean')
-# ax[1].fill_between( sta.ae_lrn_x, 
-#                     sta.ae_lrn_mean - sta.ae_lrn_sd,
-#                     sta.ae_lrn_mean + sta.ae_lrn_sd,
-#                     facecolor    = red[3],
-#                     edgecolor    = red[3],
-#                     alpha        = 0.2,
-#                     label        = 'Standard deviation')
-# ax[0].set_ylim(.5, 1.)
-# ax[1].set_xlim(1,25)
-# ax[1].set_title('Learning curve', fontsize = 20)
-# ax[1].set_xlabel('Trial', fontsize = 18)
-# ax[1].tick_params(labelsize = 14)
-# ax[1].grid(True, linewidth = .5, color = [.9,.9,.9])
-# ax[1].legend(loc = 'lower right', fontsize = 12, frameon = True)
-
-# fig.tight_layout()
-# fig.savefig(os.path.join(fdir, 'abm_sl_group.pdf'), dpi = 300, format = 'pdf')
-
-# # participant-level economic choice data visualization
-# # -----------------------------------------------------------------------------
-# # participant-level economic action accuracy learning curves
-# fig             = plt.figure(figsize = (12,12))                                 # figure initialization and figure size
-# nrows           = 8                                                             # number of rows
-# ncols           = 7                                                             # number of columns
-# gs              = gridspec.GridSpec(8,7)                                        # subplot layout
-# ax              = {}                                                            # axes dictionary initialization          
-# idx             = 0                                                             # linear index initialization
-
-# for i in range(nrows):
-#     for j in range(ncols):
-#         ax[idx] = plt.subplot(gs[i,j])
-#         ax[idx].plot(sta.ae_lrn_x, sta.ae_lrn[idx,:], ls = '-', color = red[2])
-#         ax[idx].set_title('P{0:1}, {1:1.2f}'.format(idx,sta.ae_acc[idx]), fontsize = 8)
-#         ax[idx].set_ylim(.45, 1.05)
-#         ax[idx].set_xlim(1,25)
-#         ax[idx].tick_params(labelsize = 8)
-#         ax[idx].grid(True, linewidth = .5, color = [.9,.9,.9])
-#         idx = idx + 1
-#         if idx >= n:
-#             break
-#     if idx >= n:
-#         break
-
-# fig.tight_layout()
-# fig.savefig(os.path.join(fdir, 'abm_sl_participants.pdf'), dpi = 300, format = 'pdf')
-
 
